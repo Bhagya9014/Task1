@@ -42,10 +42,6 @@ export default class Screen1 extends React.Component {
     {
       this.state.itemArray[item.id-1] = 0;
     }
-    if(item.image && this.state.itemArray[item.id-1] == 0){
-      return null;
-    }
-    else{
     return(
       <View style={[styles.subView,{borderBottomWidth: item.icon ? 0.2 : 0}]}>
         <View style={styles.innerView}>
@@ -75,7 +71,6 @@ export default class Screen1 extends React.Component {
         </View>
       </View>
     );
-    }
   }
 
   openModal = () => {

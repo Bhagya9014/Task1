@@ -34,14 +34,14 @@ export default class Screen2 extends React.Component {
       item.image = require('./assets/image/comments.png');
     })
 
-    let len = 0;
-    this.props.itemArray.map((item) => {
-      if(item > 0){
-        len = len + 1;
-      }
+    let arr = [];
+    this.props.Data.map((item) => {
+        if(this.props.itemArray[item.id-1] > 0){
+          arr = [...arr,item];
+        }
     })
 
-    let restData = this.props.Data.length >= 2 && this.state.show ? this.props.Data.slice(0, 2) : this.props.Data;  
+    let restData = arr.length >= 2 && this.state.show ? arr.slice(0, 2) : arr;  
     
     const options = [
       {
@@ -79,10 +79,10 @@ export default class Screen2 extends React.Component {
                       renderItem={this.props.renderItem}
                       keyExtractor={item => item.id}
                   />
-                  {len > 2 ? 
+                  {arr.length > 2 ? 
                           <View style={{marginLeft: 24}}>
                               <TouchableOpacity onPress={() => this.showMenu()}>
-                                  <Text style={{marginRight: this.state.show ? 24 : 42,marginLeft: '74%',fontSize: 16,borderBottomWidth: 1}}>{this.state.show?"Show More":"Collapse"}</Text>
+                                  <Text style={{alignSelf: 'flex-end',marginRight: 24}}>{this.state.show?"Show More":"Collapse"}</Text>
                               </TouchableOpacity>                         
                           </View>
                   : null}
