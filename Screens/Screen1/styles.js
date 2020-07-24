@@ -15,38 +15,31 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: '#fafafa'
     },
+    imgStyling:{
+        marginLeft: 4,
+        tintColor: '#fff',
+        height: 24,
+        width: 24
+    },
+    imgColor: {
+        tintColor: '#000',
+        height: 20, 
+        width: 20
+    },
+    imgPos: {
+        position: 'absolute',
+        marginTop: 32
+    },
     imgStyle: {
         width: '100%',
         height: '30%' 
-    },
-    iconStyle1: {
-        color: '#fff',
-        fontSize: 32,
-        position: 'absolute',
-        marginLeft: 10,
-        marginTop: 12
-    },
-    iconStyle2: {
-        color: '#fff',
-        fontSize: 32,
-        position: 'absolute',
-        right: 48,
-        marginTop: 12,
-        transform: [{rotate: '270deg'}]
-    },
-    iconStyle3: {
-        color: '#fff',
-        fontSize: 32,
-        position: 'absolute',
-        right: 10,
-        marginTop: 12
     },
     cardView: {
         marginTop: -50,
         alignSelf: 'center',
         borderRadius: 6,
-        width: '90%',
-        height: '24%',
+        paddingVertical: 20,
+        paddingHorizontal: 44,
         backgroundColor: '#FFF',
         alignItems: 'center',
         justifyContent: 'center',
@@ -60,9 +53,6 @@ export default StyleSheet.create({
     row:{
         flexDirection: 'row'
     },
-    iconSize:{
-        fontSize: 24
-    },
     btnStyle:{
         backgroundColor: '#000',
         borderRadius: 8
@@ -72,10 +62,8 @@ export default StyleSheet.create({
         marginHorizontal: 16,
         marginVertical: 8
     },
-    flatView:{
-        marginTop: 150
-    },
     header:{
+        marginTop: 24,
          marginLeft: 24,
          fontSize: 20,
          fontWeight: "bold", 
@@ -83,19 +71,19 @@ export default StyleSheet.create({
     },
     smallView:{
         borderRadius: 6,
-        width: '24%', 
-        height: '4%', 
+        paddingHorizontal: 20,
+        paddingVertical: 8,
         backgroundColor: 'orange', 
         alignItems: 'center',
         justifyContent: 'center',
         position: 'absolute',
-        bottom: 74,
-        right: 150,
+        bottom: 82,
+        alignSelf: 'center',
         flexDirection: 'row'
     },
     tabBar: {
         width: '100%', 
-        height: 50, 
+        height: 60, 
         backgroundColor: '#000', 
         alignItems: 'center',
         justifyContent: 'center',
@@ -144,10 +132,5 @@ export default StyleSheet.create({
         marginTop: 2,
         fontSize: 12,
         paddingHorizontal: 24
-    },
-    commentIcon: {
-        position: 'absolute',
-        right: 24,
-        fontSize: 24
     },
 })

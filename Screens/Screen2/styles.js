@@ -1,19 +1,16 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-    cartView: {
-        width: '100%', 
-        height: '36%',
-        backgroundColor: '#000'
-    },
     subView: {
         flexDirection: 'row',
         alignItems: 'center',
         marginLeft: 4
     },
-    icon: {
-        color: '#fff', 
-        fontSize: 24
+    imgStyling: {
+        marginLeft: 4,
+        tintColor: '#000',
+        height: 20,
+        width: 20
     },
     header: {
         marginTop: 1,
@@ -22,16 +19,12 @@ export default StyleSheet.create({
         fontSize: 24
     },
     costCard: {
-        // marginLeft: '30%',
-        // marginTop: '16%',
         alignSelf: 'center',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: 28,
-        paddingHorizontal: 52,
-        marginVertical: 40,
-        // width: '46%',
-        // height: '34%',
+        paddingVertical: 20,
+        paddingHorizontal: 62,
+        marginVertical: 60,
         borderRadius: 6, 
         backgroundColor: '#fff'
     },
@@ -61,7 +54,7 @@ export default StyleSheet.create({
         marginTop: 24,
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     radioOuter: {
         height: 24,

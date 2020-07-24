@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  SafeAreaView,
-  StatusBar,
   ScrollView,
   View,
   Text,
@@ -9,9 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Modal,
-  Platform,
 } from 'react-native';
-// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Screen2 from '../Screen2';
 import styles from './styles';
 
@@ -46,33 +42,36 @@ export default class Screen1 extends React.Component {
     {
       this.state.itemArray[item.id-1] = 0;
     }
-    if(item.icon && this.state.itemArray[item.id-1] == 0){
+    if(item.image && this.state.itemArray[item.id-1] == 0){
       return null;
     }
     else{
     return(
       <View style={[styles.subView,{borderBottomWidth: item.icon ? 0.2 : 0}]}>
         <View style={styles.innerView}>
-        <Text style={styles.type1}>{item.type1}</Text>
-        <Text style={{marginLeft: 4}}>{item.title1}</Text>
-        <View style={styles.countBtn}>
-            {this.state.itemArray[item.id-1] == 0  ?  <TouchableOpacity onPress={() => this.increase(item.id-1,item.cost)}><Text style={{paddingHorizontal: 12,paddingVertical: 2}}>ADD</Text></TouchableOpacity> 
-            : 
-            <View style={styles.row}>
-              <TouchableOpacity onPress={() => this.decrease(item.id-1,item.cost)}><Text style={{fontSize: 16,fontWeight: 'bold'}}>-</Text></TouchableOpacity>
-                <Text style={styles.countText}>{this.state.itemArray[item.id-1]}</Text>
-              <TouchableOpacity onPress={() => this.increase(item.id-1,item.cost)}><Text style={{fontSize: 16}}>+</Text></TouchableOpacity>
-            </View>
-            }
-        </View>
+          <Text style={styles.type1}>{item.type1}</Text>
+          <Text style={{marginLeft: 4}}>{item.title1}</Text>
+          <View style={styles.countBtn}>
+              {this.state.itemArray[item.id-1] == 0  ?  <TouchableOpacity onPress={() => this.increase(item.id-1,item.cost)}><Text style={{paddingHorizontal: 12,paddingVertical: 2}}>ADD</Text></TouchableOpacity> 
+              : 
+              <View style={styles.row}>
+                <TouchableOpacity onPress={() => this.decrease(item.id-1,item.cost)}><Text style={{fontSize: 16,fontWeight: 'bold'}}>-</Text></TouchableOpacity>
+                  <Text style={styles.countText}>{this.state.itemArray[item.id-1]}</Text>
+                <TouchableOpacity onPress={() => this.increase(item.id-1,item.cost)}><Text style={{fontSize: 16}}>+</Text></TouchableOpacity>
+              </View>
+              }
+          </View>
         </View>
         <View style={{flex: 1, flexDirection: 'row'}}>
-        {item.type2 ? <Text style={styles.type2}>{item.type2}</Text> : null}
-        <Text style={{marginLeft: item.type2 ? 4 : 20}}>{item.title2}</Text>
+            {item.type2 ? <Text style={styles.type2}>{item.type2}</Text> : null}
+            <Text style={{marginLeft: item.type2 ? 4 : 20}}>{item.title2}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.cost}>{'\u20AC'}{item.cost}</Text>
-          {/* {item.icon ? <Icon name='comment-multiple' style={styles.commentIcon}/> : null} */}
+          <Image
+                source={ item.image }
+                style={[styles.imgStyling,{tintColor: '#000',height: 28,width: 28,position: 'absolute',right: 24}]}
+              />
         </View>
       </View>
     );
@@ -121,20 +120,35 @@ export default class Screen1 extends React.Component {
     return(
       <View style={styles.mainContainer}>
           <Image
-            source={ require('./food.png') }
+            source={ require('./assets/image/food.png') }
             style={styles.imgStyle}
           />
-          {/* <Icon name={Platform.OS == 'ios' ? 'chevron-left' : 'arrow-left'} style={styles.iconStyle1}/>
-          <Icon name='application-export' style={styles.iconStyle2}/>
-          <Icon name='information-outline' style={styles.iconStyle3}/> */}
+          <Image
+              source={ require('./assets/image/back.png') }
+              style={[styles.imgStyling,styles.imgPos,{marginLeft: 10}]}
+            />
+          <Image
+            source={ require('./assets/image/export.png') }
+            style={[styles.imgStyling,styles.imgPos,{right: 48}]}
+          />
+          <Image
+          source={ require('./assets/image/info.png') }
+          style={[styles.imgStyling,styles.imgPos,{ right: 10}]}
+          />
           <View style={styles.cardView}>
             <Text style={styles.textStyle}>Inka Restaurant</Text>
             <View style={styles.row}>
-              {/* <Icon name='star-outline' style={styles.iconSize}/> */}
+              <Image
+                  source={ require('./assets/image/star.png') }
+                  style={[styles.imgStyling,styles.imgColor]}
+                />
               <Text> 5.0(200+) | All days : 09:00 AM - 06:00 PM</Text>
             </View>
             <View style={styles.row}>
-              {/* <Icon name='phone-in-talk-outline' style={styles.iconSize}/> */}
+              <Image
+                  source={ require('./assets/image/phone.png') }
+                  style={[styles.imgStyling,styles.imgColor]}
+                />
               <Text style={{marginBottom: 10}}> Reach us at : 9854562142</Text>
             </View>
             <TouchableOpacity style={styles.btnStyle}>
@@ -142,7 +156,6 @@ export default class Screen1 extends React.Component {
             </TouchableOpacity>
           </View>
           <ScrollView>
-          <View style={styles.flatView}>
             <Text style={styles.header}>Starter</Text>
             <FlatList
                 data={DATA}
@@ -150,14 +163,19 @@ export default class Screen1 extends React.Component {
                 keyExtractor={item => item.id}
                 nestedScrollEnabled={true}
             />
-         </View>
          </ScrollView>
          <View style={styles.smallView}>
-            {/* <Icon name='silverware-fork-knife' style={styles.iconSize}/> */}
+            <Image
+                    source={ require('./assets/image/spoon.png') }
+                    style={[styles.imgStyling,{tintColor: '#000'}]}
+                  />
             <Text style={{fontWeight: 'bold'}}> MENU</Text>
          </View>
-          <TouchableOpacity onPress = {() => this.openModal()} style={styles.tabBar}>
-                {/* <Icon name='cart-outline' style={{color: '#fff', fontSize: 32}}/> */}
+         <TouchableOpacity onPress = {() => this.openModal()} style={styles.tabBar}>
+                <Image
+                      source={ require('./assets/image/shopping-cart.png') }
+                      style={styles.imgStyling}
+                    />
                 <Text style={{color: '#fff',fontSize: 16}}> VIEW CART ({this.state.count} ITEMS)</Text>
           </TouchableOpacity>
           <Modal
