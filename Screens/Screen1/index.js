@@ -111,10 +111,10 @@ export default class Screen1 extends React.Component {
       },
       {
         id: 4,
-        title1: 'Chilitos con Can',
+        title1: 'Guac de la Costa',
         type1: 'N',
-        title2: 'padrones tempura, gamous',
-        cost: 8
+        title2: 'citron vert / Corona sauce',
+        cost: 9
       },
     ];    
     return(
