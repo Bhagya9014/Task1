@@ -9,8 +9,9 @@ import {
   Image,
 } from 'react-native';
 import styles from './styles';
+import { connect } from 'react-redux';
 
-export default class Screen2 extends React.Component {
+class Screen2 extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -30,18 +31,13 @@ export default class Screen2 extends React.Component {
   }
 
   render(){
-    this.props.Data.map((item) => {
-      item.image = require('./assets/image/comments.png');
+    let cost = 0;
+    this.props.cartItems.map((item) => {
+        item.image = require('./assets/image/comments.png');
+        cost = cost + (item.cost*item.count);
     })
 
-    let arr = [];
-    this.props.Data.map((item) => {
-        if(this.props.itemArray[item.id-1] > 0){
-          arr = [...arr,item];
-        }
-    })
-
-    let restData = arr.length >= 2 && this.state.show ? arr.slice(0, 2) : arr;  
+    let restData = this.props.cartItems.length >= 2 && this.state.show ? this.props.cartItems.slice(0, 2) : this.props.cartItems;  
     
     const options = [
       {
@@ -56,6 +52,7 @@ export default class Screen2 extends React.Component {
       },
     ];
 
+    console.log('cart1:',this.props.cartItems);
     return(
       <SafeAreaView style={{flex: 1,backgroundColor: 'black'}}>
           <View style={styles.subView}>
@@ -69,7 +66,7 @@ export default class Screen2 extends React.Component {
           </View>
           <View style={styles.costCard}>
               <Text style={styles.costHeader}>Total Cost</Text>
-              <Text style={styles.cost}>{'\u20AC'}{this.props.cost}.00</Text>
+              <Text style={styles.cost}>{'\u20AC'}{cost}.00</Text>
           </View>
          <View style = {{flex: 1, backgroundColor: 'white'}}>
               <ScrollView>
@@ -79,7 +76,7 @@ export default class Screen2 extends React.Component {
                       renderItem={this.props.renderItem}
                       keyExtractor={item => item.id}
                   />
-                  {arr.length > 2 ? 
+                  {this.props.cartItems.length > 2 ? 
                           <View style={{marginLeft: 24}}>
                               <TouchableOpacity onPress={() => this.showMenu()}>
                                   <Text style={{alignSelf: 'flex-end',marginRight: 24}}>{this.state.show?"Show More":"Collapse"}</Text>
@@ -123,3 +120,18 @@ export default class Screen2 extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+      cartItems: state
+  }
+}
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//       removeItem: (product) => dispatch({ type: 'REMOVE_FROM_CART', payload: product })
+//   }
+// }
+
+
+export default connect(mapStateToProps)(Screen2);

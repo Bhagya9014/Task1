@@ -10,50 +10,50 @@ import {
 } from 'react-native';
 import Screen2 from '../Screen2';
 import styles from './styles';
+import { connect } from 'react-redux';
 
 
-export default class Screen1 extends React.Component {
+class Screen1 extends React.Component {
   constructor() {
     super();
     this.state = {
         visible: false,
-        itemArray: [],
-        count: 0,
-        cost: 0
     }
   }
 
-  increase = (id,cost) => {
-    if(this.state.itemArray[id] < 20){
-      const some_array = [...this.state.itemArray]
-      some_array[id] = this.state.itemArray[id]+1;
-      this.setState({itemArray:some_array, count: this.state.count+1,cost: this.state.cost+cost})
+  increase = (item) => {
+    if(item.count < 20){
+      item.count = item.count + 1;
+      if(item.count > 1){
+        this.props.removeItem(item);
+      }
+      this.props.addItem(item);
     }
   }
 
-  decrease = (id,cost) => {
-    const some_array = [...this.state.itemArray]
-    some_array[id] = this.state.itemArray[id]-1;
-    this.setState({itemArray:some_array, count: this.state.count-1,cost: this.state.cost-cost})
+  decrease = (item) => {
+    this.props.removeItem(item);
+    if(item.count > 1){
+      item.count = item.count - 1;
+      this.props.addItem(item);
+    }
   }
 
   renderItem = ({ item }) => {
-    if(!this.state.itemArray[item.id-1])
-    {
-      this.state.itemArray[item.id-1] = 0;
-    }
+    let data = this.props.cartItems.find(data => data.id === item.id);
+    item.count = data ? data.count : item.count; 
     return(
-      <View style={[styles.subView,{borderBottomWidth: item.icon ? 0.2 : 0}]}>
+      <View style={[styles.subView,{borderBottomWidth: item.image ? 0.2 : 0}]}>
         <View style={styles.innerView}>
           <Text style={styles.type1}>{item.type1}</Text>
           <Text style={{marginLeft: 4}}>{item.title1}</Text>
           <View style={styles.countBtn}>
-              {this.state.itemArray[item.id-1] == 0  ?  <TouchableOpacity onPress={() => this.increase(item.id-1,item.cost)}><Text style={{paddingHorizontal: 12,paddingVertical: 2}}>ADD</Text></TouchableOpacity> 
+              {!data  ?  <TouchableOpacity onPress={() => this.increase(item)}><Text style={{paddingHorizontal: 12,paddingVertical: 2}}>ADD</Text></TouchableOpacity> 
               : 
               <View style={styles.row}>
-                <TouchableOpacity onPress={() => this.decrease(item.id-1,item.cost)}><Text style={{fontSize: 16,fontWeight: 'bold'}}>-</Text></TouchableOpacity>
-                  <Text style={styles.countText}>{this.state.itemArray[item.id-1]}</Text>
-                <TouchableOpacity onPress={() => this.increase(item.id-1,item.cost)}><Text style={{fontSize: 16}}>+</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => this.decrease(item)}><Text style={{fontSize: 16,fontWeight: 'bold'}}>-</Text></TouchableOpacity>
+                  <Text style={styles.countText}>{data ? data.count : item.count}</Text>
+                <TouchableOpacity onPress={() => this.increase(item)}><Text style={{fontSize: 16}}>+</Text></TouchableOpacity>
               </View>
               }
           </View>
@@ -81,37 +81,47 @@ export default class Screen1 extends React.Component {
       this.setState({visible : false});
   }
   render(){
-    const DATA = [
+    let DATA = [
       {
         id: 1,
         title1: 'Guac de la Costa',
         type1: 'N',
         title2: 'tortllas de mals, fruit de la passion, mango',
         type2: 'D',
-        cost: 7
+        cost: 7,
+        count: 0
       },
       {
         id: 2,
         title1: 'Chicharron y Cerveza',
         type1: 'N',
         title2: 'citron vert / Corona sauce',
-        cost: 7
+        cost: 7,
+        count: 0
       },
       {
         id: 3,
         title1: 'Chilitos con Can',
         type1: 'N',
         title2: 'padrones tempura, gamous',
-        cost: 8
+        cost: 8,
+        count: 0
       },
       {
         id: 4,
         title1: 'Guac de la Costa',
         type1: 'N',
         title2: 'citron vert / Corona sauce',
-        cost: 9
+        cost: 9,
+        count: 0
       },
     ];    
+
+    let total = 0;
+    this.props.cartItems.map((item) => {
+        total = total + item.count;
+    })
+
     return(
       <View style={styles.mainContainer}>
           <Image
@@ -171,16 +181,32 @@ export default class Screen1 extends React.Component {
                       source={ require('./assets/image/shopping-cart.png') }
                       style={styles.imgStyling}
                     />
-                <Text style={{color: '#fff',fontSize: 16}}> VIEW CART ({this.state.count} ITEMS)</Text>
+                <Text style={{color: '#fff',fontSize: 16}}> VIEW CART ({total} ITEMS)</Text>
           </TouchableOpacity>
           <Modal
           animationType="slide"
           transparent={false}
           visible={this.state.visible}
           onRequestClose={this.closeModal}>
-              <Screen2 closeModal={this.closeModal} Data={DATA} cost={this.state.cost} itemArray={this.state.itemArray} renderItem={this.renderItem}/>
+              <Screen2 closeModal={this.closeModal} renderItem={this.renderItem}/>
           </Modal>
       </View>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+      cartItems: state
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      removeItem: (product) => dispatch({ type: 'REMOVE_FROM_CART', payload: product }),
+      addItem: (product) => dispatch({ type: 'ADD_TO_CART', payload: product })
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Screen1);
